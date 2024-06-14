@@ -50,7 +50,7 @@ jobs:
 
       - name: Get Current Timestamp
         id: timestamp
-        run: echo "RELEASE_TAG=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+        run: echo "RELEASE_TAG=$(date +%s)" >> $GITHUB_ENV
 
       - name: Create GitHub Release
         id: create_release
