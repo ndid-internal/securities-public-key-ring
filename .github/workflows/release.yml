@@ -25,7 +25,7 @@ jobs:
           echo "]" >> output/combined.json
 
       - name: Create release version
-        id: create_version
+        id: version
         run: echo "::set-output name=version::$(date -u +%Y%m%d%H%M%S)"
 
       - name: Upload release artifacts
