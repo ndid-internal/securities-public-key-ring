@@ -29,10 +29,6 @@ jobs:
           done
           echo "]" >> output/combined.json
 
-      - name: Create release version
-        id: version
-        run: echo "::set-output name=version::$(date -u +%Y%m%d%H%M%S)"
-
       - name: Upload release artifacts
         uses: actions/upload-artifact@v3
         with:
@@ -51,15 +47,19 @@ jobs:
         with:
           name: combined-json
 
+      - name: Get Current Timestamp
+        id: timestamp
+        run: echo "RELEASE_TAG=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
+
       - name: Create GitHub Release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ needs.build.outputs.version }}
-          release_name: Release ${{ needs.build.outputs.version }}
+          tag_name: ${{ env.RELEASE_TAG }}
+          release_name: ${{ env.RELEASE_TAG }}
           body: |
-            Automated release created on ${{ needs.build.outputs.version }}.
+            Automated release
           draft: false
           prerelease: false
 
