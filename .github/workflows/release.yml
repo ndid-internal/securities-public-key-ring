@@ -17,11 +17,16 @@ jobs:
         run: |
           mkdir -p output
           echo "[" > output/combined.json
+          first=true
           for file in $(find . -name "*.pem"); do
-            content=$(cat $file)
-            echo "{\"file\": \"$(basename $file)\", \"content\": \"$content\"}," >> output/combined.json
+            content=$(cat $file | sed ':a;N;$!ba;s/\n/\\n/g')
+            if [ "$first" = true ]; then
+              first=false
+            else
+              echo "," >> output/combined.json
+            fi
+            echo "{\"file\": \"$(basename $file)\", \"content\": \"$content\"}" >> output/combined.json
           done
-          sed -i '$ s/,$//' output/combined.json # Remove the last comma
           echo "]" >> output/combined.json
 
       - name: Create release version
