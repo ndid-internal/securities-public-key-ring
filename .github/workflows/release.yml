@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: combined-json
-          path: output/combined.json
+          path: output/
 
   release:
     needs: build
@@ -46,7 +46,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: combined-json
-          path: output/combined.json
+          path: output/
 
       - name: Get Current Timestamp
         id: timestamp
